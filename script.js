@@ -1,6 +1,4 @@
-// =============================================
-//   DOM Elements
-// =============================================
+
 const taskInput       = document.getElementById("taskInput");
 const addTaskBtn      = document.getElementById("addTaskBtn");
 const taskList        = document.getElementById("taskList");
@@ -9,25 +7,13 @@ const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 const errorMsg        = document.getElementById("errorMsg");
 const filterButtons   = document.querySelectorAll("[data-filter]");
 
-// =============================================
-//   Data
-// =============================================
-let tasks = [];           // { id, text, completed }
-let currentFilter = "all"; // "all" | "active" | "completed"
 
-// =============================================
-//   Optional: Load from localStorage
-// =============================================
-// const saved = localStorage.getItem("todo-tasks");
-// if (saved) {
-//     tasks = JSON.parse(saved);
-// }
+let tasks = [];           
+let currentFilter = "all"; 
 
-// =============================================
-//   Helpers
-// =============================================
+
 function saveTasks() {
-    // localStorage.setItem("todo-tasks", JSON.stringify(tasks));
+    
 }
 
 function showError(msg) {
@@ -45,13 +31,11 @@ function updateCounter() {
         remaining === 1 ? "1 remaining" : remaining + " remaining";
 }
 
-// =============================================
-//   Render Tasks
-// =============================================
+
 function renderTasks() {
     taskList.innerHTML = "";
 
-    // Filter logic
+   
     let filtered = tasks;
     if (currentFilter === "active") {
         filtered = tasks.filter(t => !t.completed);
@@ -59,7 +43,7 @@ function renderTasks() {
         filtered = tasks.filter(t => t.completed);
     }
 
-    // Show empty message
+    
     if (filtered.length === 0) {
         const li = document.createElement("li");
         li.className = "text-center text-muted list-group-item";
@@ -69,7 +53,7 @@ function renderTasks() {
         return;
     }
 
-    // Show tasks
+    
     filtered.forEach(task => {
         const li = document.createElement("li");
         li.className = "list-group-item task-item";
@@ -78,7 +62,7 @@ function renderTasks() {
             li.classList.add("task-completed");
         }
 
-        // ---- Left: checkbox + text ----
+       
         const leftDiv = document.createElement("div");
         leftDiv.className = "task-left";
 
@@ -97,7 +81,7 @@ function renderTasks() {
         leftDiv.appendChild(checkbox);
         leftDiv.appendChild(span);
 
-        // ---- Right: delete button ----
+        
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "btn btn-sm btn-danger";
         deleteBtn.textContent = "Delete";
@@ -113,13 +97,11 @@ function renderTasks() {
     updateCounter();
 }
 
-// =============================================
-//   Add Task (Task 3 + Task 6)
-// =============================================
+
 function addTask() {
     const text = taskInput.value.trim();
 
-    // Validate: prevent empty or spaces-only
+    
     if (text === "") {
         showError("Please enter a task.");
         return;
@@ -134,14 +116,12 @@ function addTask() {
     };
 
     tasks.push(newTask);
-    taskInput.value = "";   // Clear input
+    taskInput.value = "";   
     saveTasks();
     renderTasks();
 }
 
-// =============================================
-//   Toggle Complete (Task 4)
-// =============================================
+
 function toggleCompleted(id) {
     const task = tasks.find(t => t.id === id);
     if (task) {
@@ -151,27 +131,21 @@ function toggleCompleted(id) {
     }
 }
 
-// =============================================
-//   Delete Task (Task 5)
-// =============================================
+
 function deleteTask(id) {
     tasks = tasks.filter(t => t.id !== id);
     saveTasks();
     renderTasks();
 }
 
-// =============================================
-//   Clear Completed (Task 8)
-// =============================================
+
 function clearCompleted() {
     tasks = tasks.filter(t => !t.completed);
     saveTasks();
     renderTasks();
 }
 
-// =============================================
-//   Filter Tasks (Task 7)
-// =============================================
+
 function changeFilter(filter) {
     currentFilter = filter;
 
@@ -186,9 +160,7 @@ function changeFilter(filter) {
     renderTasks();
 }
 
-// =============================================
-//   Event Listeners
-// =============================================
+
 addTaskBtn.addEventListener("click", addTask);
 
 taskInput.addEventListener("keydown", function (e) {
@@ -205,7 +177,5 @@ filterButtons.forEach(btn => {
     });
 });
 
-// =============================================
-//   Initial Render
-// =============================================
+
 renderTasks();
